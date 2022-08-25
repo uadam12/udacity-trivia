@@ -63,7 +63,6 @@ def questions():
             questions = api.search(searchTerm)
         else:
             api.add_question(data)
-            return jsonify({"success": True})
     
     return jsonify({
         "success": True,
