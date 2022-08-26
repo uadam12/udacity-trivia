@@ -50,14 +50,17 @@ class API:
         self.__categories = dict([(category.id, category.type) for category in Category.query.all()])
     
     def all_questions(self):
+        self.__current_category = 'all'
         return Question.query.order_by(Question.id).all()
     
     def questions_in_category(self, category_id):
         category = Category.query.get(self.validate_int(category_id))
         
         if category:
+            self.__current_category = category.type
             return Question.query.filter_by(category = category.id).order_by(Question.id).all()
         else:
+            self.__current_category = 'all'
             return []
     
     def questions_per_page(self, questions: list, page_number: int = 1) -> int:
