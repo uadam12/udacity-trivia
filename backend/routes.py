@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, json, request
+from flask import Blueprint, jsonify, abort, request
 from api import API
 from flaskr import QUESTIONS_PER_PAGE
 
@@ -121,12 +121,15 @@ def quiz():
         if provided, and that is not one of the previous questions.
     """
 
-    data = request.get_json()
-    category_id = data.get("quiz_category").get("id", 0)
-    prev_questions = data.get("previous_questions", [])
-    question = api.exists(api.quiz_question(prev_questions, category_id))
+    try:
+        data = request.get_json()
+        category_id = data.get("quiz_category").get("id", 0)
+        prev_questions = data.get("previous_questions", [])
+        question = api.quiz_question(prev_questions, category_id)
+    except:
+        abort(422)
 
     return jsonify({
         "success":True,
-        "question":question.format()
+        "question":api.exists(question).format()
     })
