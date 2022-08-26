@@ -154,6 +154,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['success'])
         self.assertNotIn(category, quiz["previous_questions"])
 
+    def test_quiz_unprocessable_entity(self):
+        quiz = {}
+        res = self.client().post("/api/v1/quizzes", json=quiz)
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['message'], 'Unprocessable Entity')
+        self.assertFalse(data['success'])
+        
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
