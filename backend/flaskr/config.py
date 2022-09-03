@@ -7,7 +7,7 @@ load_dotenv()
 def connect_to(database_name: str):
     return "postgresql://{}:{}@{}:{}/{}".format(
         getenv('DB_USER', 'postgres'),
-        getenv('DB_PASS', 'mydbpass'),
+        getenv('DB_PASS', 'your postgres password'),
         getenv('DB_HOST', 'localhost'),
         getenv('DB_PORT', '5432'),
         database_name
