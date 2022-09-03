@@ -1,0 +1,8 @@
+.message {
+    position:fixed;
+    background-color: rgba(0, 0, 0, .3);
+    color:white;
+    right:10px;
+    top:20px;
+    padding:12px 2px;
+}

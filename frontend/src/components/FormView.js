@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import $ from 'jquery';
 import '../stylesheets/FormView.css';
+import View from './View';
 
-class FormView extends Component {
-  constructor(props) {
+class FormView extends View {
+  constructor() {
     super();
     this.state = {
       question: '',
@@ -14,25 +15,11 @@ class FormView extends Component {
     };
   }
 
-  componentDidMount() {
-    $.ajax({
-      url: `/api/v1/categories`, //TODO: update request URL
-      type: 'GET',
-      success: (result) => {
-        this.setState({ categories: result.categories });
-        return;
-      },
-      error: (error) => {
-        alert('Unable to load categories. Please try your request again');
-        return;
-      },
-    });
-  }
 
   submitQuestion = (event) => {
     event.preventDefault();
     $.ajax({
-      url: '/api/v1/questions', //TODO: update request URL
+      url: this.url('questions'), //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -42,17 +29,13 @@ class FormView extends Component {
         difficulty: this.state.difficulty,
         category: this.state.category,
       }),
-      xhrFields: {
-        withCredentials: true,
-      },
       crossDomain: true,
       success: (result) => {
         document.getElementById('add-question-form').reset();
         return;
       },
       error: (error) => {
-        alert('Unable to add question. Please try your request again');
-        return;
+        this.handleError(error);
       },
     });
   };
@@ -64,6 +47,7 @@ class FormView extends Component {
   render() {
     return (
       <div id='add-form'>
+        {super.render()}
         <h2>Add a New Trivia Question</h2>
         <form
           className='form-view'

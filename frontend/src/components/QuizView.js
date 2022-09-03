@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import $ from 'jquery';
 import '../stylesheets/QuizView.css';
+import View from './View';
 
 const questionsPerPlay = 5;
 
-class QuizView extends Component {
-  constructor(props) {
+class QuizView extends View {
+  constructor() {
     super();
     this.state = {
       quizCategory: null,
@@ -17,21 +18,6 @@ class QuizView extends Component {
       guess: '',
       forceEnd: false,
     };
-  }
-
-  componentDidMount() {
-    $.ajax({
-      url: `/api/v1/categories`, //TODO: update request URL
-      type: 'GET',
-      success: (result) => {
-        this.setState({ categories: result.categories });
-        return;
-      },
-      error: (error) => {
-        alert('Unable to load categories. Please try your request again');
-        return;
-      },
-    });
   }
 
   selectCategory = ({ type, id = 0 }) => {
@@ -49,7 +35,7 @@ class QuizView extends Component {
     }
 
     $.ajax({
-      url: '/api/v1/quizzes', //TODO: update request URL
+      url: this.url('quizzes'), //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -57,9 +43,6 @@ class QuizView extends Component {
         previous_questions: previousQuestions,
         quiz_category: this.state.quizCategory,
       }),
-      xhrFields: {
-        withCredentials: true,
-      },
       crossDomain: true,
       success: (result) => {
         this.setState({
@@ -71,9 +54,11 @@ class QuizView extends Component {
         });
         return;
       },
-      error: (error) => {
-        alert('Unable to load question. Please try your request again');
-        return;
+      error: error => {
+        this.handleError(error);
+        if(this.state.previousQuestions.length)
+          this.setState({forceEnd: true});
+        else this.restartGame();
       },
     });
   };
@@ -102,6 +87,7 @@ class QuizView extends Component {
   renderPrePlay() {
     return (
       <div className='quiz-play-holder'>
+        {super.render()}
         <div className='choose-header'>Choose Category</div>
         <div className='category-holder'>
           <div className='play-category' onClick={this.selectCategory}>
@@ -177,6 +163,7 @@ class QuizView extends Component {
       this.renderCorrectAnswer()
     ) : (
       <div className='quiz-play-holder'>
+        {super.render()}
         <div className='quiz-question'>
           {this.state.currentQuestion.question}
         </div>

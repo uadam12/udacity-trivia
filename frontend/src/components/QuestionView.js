@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../stylesheets/App.css';
 import Question from './Question';
 import Search from './Search';
 import $ from 'jquery';
+import View from './View';
 
-class QuestionView extends Component {
-  constructor() {
-    super();
+class QuestionView extends View {
+  constructor(props) {
+    super(props);
     this.state = {
       questions: [],
       page: 1,
@@ -17,24 +18,13 @@ class QuestionView extends Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      url: `/api/v1/categories`, //TODO: update request URL
-      type: 'GET',
-      success: (result) => {
-        this.setState({ categories: result.categories });
-        return;
-      },
-      error: (error) => {
-        alert('Unable to load categories. Please try your request again');
-        return;
-      },
-    });
+    super.componentDidMount()
     this.getQuestions();
   }
 
-  getQuestions = () => {
+  getQuestions() {
     $.ajax({
-      url: `/questions?page=${this.state.page}`, //TODO: update request URL
+      url: this.url(`questions?page=${this.state.page}`), //TODO: update request URL
       type: 'GET',
       success: (result) => {
         this.setState({
@@ -45,14 +35,14 @@ class QuestionView extends Component {
         return;
       },
       error: (error) => {
-        alert('Unable to load questions. Please try your request again');
-        return;
+        this.handleError(error)
       },
     });
-  };
+  }
 
   selectPage(num) {
-    this.setState({ page: num }, () => this.getQuestions());
+    this.setState({ page: num });
+    this.getQuestions();
   }
 
   createPagination() {
@@ -76,45 +66,46 @@ class QuestionView extends Component {
 
   getByCategory = (id) => {
     $.ajax({
-      url: `/api/v1/categories/${id}/questions`, //TODO: update request URL
+      url: this.url(`categories/${id}/questions`), //TODO: update request URL
       type: 'GET',
       success: (result) => {
-        this.setState({
-          questions: result.questions,
-          totalQuestions: result.total_questions,
-          currentCategory: result.current_category,
-        });
+        if(result.success) {
+          this.setState({
+            questions: result.questions,
+            totalQuestions: result.total_questions,
+            currentCategory: result.current_category,
+          });
+        } else alert("No available question");
         return;
       },
       error: (error) => {
-        alert('Unable to load questions. Please try your request again');
-        return;
+        this.handleError(error);
       },
     });
   };
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/api/v1/questions`, //TODO: update request URL
+      url: this.url("questions"), //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify({ searchTerm: searchTerm }),
-      xhrFields: {
-        withCredentials: true,
-      },
       crossDomain: true,
       success: (result) => {
-        this.setState({
-          questions: result.questions,
-          totalQuestions: result.total_questions,
-          currentCategory: result.current_category,
-        });
+        if(result.success) {
+          this.setState({
+            questions: result.questions,
+            totalQuestions: result.total_questions,
+            currentCategory: result.current_category,
+          });
+        } else {
+          alert("Not found.");
+        }
         return;
       },
       error: (error) => {
-        alert('Unable to load questions. Please try your request again');
-        return;
+        this.handleError(error);
       },
     });
   };
@@ -123,14 +114,16 @@ class QuestionView extends Component {
     if (action === 'DELETE') {
       if (window.confirm('are you sure you want to delete the question?')) {
         $.ajax({
-          url: `/api/v1/questions/${id}`, //TODO: update request URL
+          url: this.url(`questions/${id}`), //TODO: update request URL
           type: 'DELETE',
           success: (result) => {
-            this.getQuestions();
+            this.setState({
+              "questions": this.state.questions.filter(
+                question => question.id !== id)
+            });
           },
           error: (error) => {
-            alert('Unable to load questions. Please try your request again');
-            return;
+            this.handleError(error);
           },
         });
       }
@@ -140,6 +133,7 @@ class QuestionView extends Component {
   render() {
     return (
       <div className='question-view'>
+        {super.render()}
         <div className='categories-list'>
           <h2
             onClick={() => {

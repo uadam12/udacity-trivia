@@ -1,45 +1,31 @@
-import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import React from 'react';
 import '../stylesheets/Header.css';
 
-class Header extends Component {
-  navTo(uri) {
-    window.location.href = window.location.origin + uri;
-  }
+const Header = () => 
+(<nav className='navbar'>
+  <div className='logo'>
+    <Link to="/">Udacitrivia</Link>
+  </div>
 
-  render() {
-    return (
-      <div className='App-header'>
-        <h1
-          onClick={() => {
-            this.navTo('');
-          }}
-        >
-          Udacitrivia
-        </h1>
-        <h2
-          onClick={() => {
-            this.navTo('');
-          }}
-        >
-          List
-        </h2>
-        <h2
-          onClick={() => {
-            this.navTo('/add');
-          }}
-        >
-          Add
-        </h2>
-        <h2
-          onClick={() => {
-            this.navTo('/play');
-          }}
-        >
-          Play
-        </h2>
-      </div>
-    );
-  }
-}
+  <div className="nav-links">
+    <input type="checkbox" id="checkbox_toggle" />
+    <label htmlFor='checkbox_toggle' className='hamburger'>&#9776;</label>
+
+    <ul className='menu'>
+        <li>
+            <Link to="/">List</Link>
+        </li>
+
+        <li>
+            <Link to="add">Add</Link>
+        </li>
+
+        <li>
+            <Link to="play">Play</Link>
+        </li>
+    </ul>
+  </div>
+</nav>);
 
 export default Header;
