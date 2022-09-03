@@ -187,8 +187,7 @@ curl /api/v1/questions
       "category": "6",
       "difficulty": 3,
       "id": 10,
-      "question": "Which is the only team to play in every 
-soccer World Cup tournament?"
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
     },
     {
       "answer": "Uruguay",
@@ -247,8 +246,7 @@ curl api/v1/questions -X POST -H "Content-Type: application/json" -d '{
       "category": "4",
       "difficulty": 2,
       "id": 5,
-      "question": "Whose autobiography is entitled 'I Know 
-Why the Caged Bird Sings'?"
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
     },
     {
       "answer": "George Washington Carver",
@@ -269,8 +267,7 @@ Why the Caged Bird Sings'?"
       "category": "4",
       "difficulty": 2,
       "id": 31,
-      "question": "Whose autobiography is entitled 'I Know 
-Why the Caged Bird Sings'?"
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
     },
     {
       "answer": "George Washington Carver",
@@ -353,8 +350,7 @@ curl api/v1/questions -X POST -H "Content-Type: application/json" -d '{
       "category": "6",
       "difficulty": 3,
       "id": 10,
-      "question": "Which is the only team to play in every 
-soccer World Cup tournament?"
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
     },
     {
       "answer": "Uruguay",
@@ -429,8 +425,7 @@ curl /api/v1/categories/1/questions
       "category": "1",
       "difficulty": 4,
       "id": 20,
-      "question": "What is the heaviest organ in the human 
-body?"
+      "question": "What is the heaviest organ in the human body?"
     },
     {
       "answer": "Alexander Fleming",
@@ -458,8 +453,7 @@ body?"
       "category": "1",
       "difficulty": 4,
       "id": 46,
-      "question": "What is the heaviest organ in the human 
-body?"
+      "question": "What is the heaviest organ in the human body?"
     },
     {
       "answer": "Alexander Fleming",
