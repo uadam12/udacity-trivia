@@ -26,9 +26,9 @@ Udacity is invested in creating bonding experiences for its employees and studen
 
 1. **Python 3.x** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
-2. **Virtual Environment** - We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+2. **Virtual Environment** - We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virtual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 
-3. **PIP Dependencies** - Once your virtual environment is setup and running, install the required dependencies by navigating to the `/backend` directory and running:
+3. **PIP Dependencies** - Once your virtual environment is set up and running, install the required dependencies by navigating to the `/backend` directory and running:
 
     ```bash
     pip install -r requirements.txt
@@ -58,6 +58,8 @@ psql trivia < trivia.psql
 
 ### Run the Server
 
+Open `backend/.env` and `backend/flaskr/config.py` files  add your password instead of `Your postgres password here`.
+
 From within the `backend` directory first ensure you are working using your created virtual environment.
 
 To run the server, execute:
@@ -74,7 +76,7 @@ The `FLASK_DEBUG` variable will detect file changes and restart the server autom
 
 ## NOTE
 
-One thing to note: for each endpoint, we have define the endpoint and response data. The frontend will be a plentiful resource because it has the endpoints and response data as it expects. We have use:
+One thing to note: for each endpoint, we have defined the endpoint and response data. The frontend will be a plentiful resource because it has the endpoints and response data as it expects. We have use:
 
 1. Use Flask-CORS to enable cross-domain requests and set response headers.
 2. Create an endpoint to handle `GET` requests for questions, including pagination (every 10 questions). This endpoint should return a list of questions, number of total questions, current category, categories.
@@ -159,7 +161,7 @@ curl /api/v1/questions
       "category": "5",
       "difficulty": 4,
       "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"    
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
     },
     {
       "answer": "Maya Angelou",
@@ -225,7 +227,7 @@ curl /api/v1/questions
 
 `POST 'api/v1/questions'`
 
-* Fetches questions based on `searchTerm` if provided.
+* Fetch questions based on `searchTerm` if provided.
 * Request Argument: `searchTerm`
 * Returns list of available questions, total number of questions, current category, and `success value`.
 
@@ -291,7 +293,7 @@ curl api/v1/questions -X POST -H "Content-Type: application/json" -d '{
 
 `POST 'api/v1/questions'`
 
-* Post a new questions with the provded informations.
+* Post a new questions with the provided information.
 * Request Arguments: `dictionary of question info`
 * Returns: A list of questions in group of 10 questions per page, number of total questions, category, success value.
 
